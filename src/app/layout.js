@@ -25,9 +25,9 @@ export default function RootLayout({ children }) {
 				className={`${geistSans.variable} ${geistMono.variable}  antialiased`}
 			>
 				<TopNav />
-				<div>
+				<div className="flex flex-row">
 					<LeftBar />
-					{children}
+					<div className="w-[calc(100vw-300px) h-full">{children}</div>
 				</div>
 			</body>
 		</html>

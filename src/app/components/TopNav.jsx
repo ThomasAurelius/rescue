@@ -7,6 +7,7 @@ const menuItems = [
 		label: "Home",
 		href: "/",
 		submenu: [
+			{ label: "Home Page", href: "/" },
 			{ label: "Store", href: "/store" },
 			{ label: "Links & Resources", href: "/links-resources" },
 			{ label: "Events", href: "/events" },
@@ -18,14 +19,14 @@ const menuItems = [
 		href: "/support",
 		submenu: [
 			{ label: "Donations", href: "/support/donations" },
-			{ label: "Adoption Info", href: "/suppor/adoption-info" },
+			{ label: "Adoption Info", href: "/support/adoption-info" },
 			{
 				label: "Fostering and Volunteer Info",
 				href: "/support/fostering-volunteer",
 			},
 
 			{ label: "Sponsor a Dachshund", href: "/support/sponsor-a-dachshund" },
-			{ label: "Pack Pals", href: "/support/pack-pals" },
+
 			{ label: "Our Supporters", href: "/support/our-supporters" },
 		],
 	},
@@ -34,11 +35,10 @@ const menuItems = [
 		href: "/learn",
 		submenu: [
 			{ label: "Description", href: "/learn/description" },
-			{ label: "History", href: "/learn/history" },
-			{ label: "Health", href: "/learn/health" },
+			{ label: "Adoption Process", href: "/learn/adoption-process" },
 			{
 				label: "IVDD Resources",
-				href: "/learn/ivdd-resources",
+				href: "/learn/ivdd",
 			},
 			{ label: "FAQ?", href: "/learn/faq" },
 		],
