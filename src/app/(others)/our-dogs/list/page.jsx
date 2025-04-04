@@ -1,19 +1,18 @@
-// app/dogs/page.jsx
 import Link from "next/link";
-import clientPromise from "../../../lib/mongodb";
+import { getRescueCollection } from "../../../lib/mongodb";
 
 export default async function DogsListingPage() {
 	let dogs = [];
 	try {
-		const client = await clientPromise;
-		const db = client.db();
+		// getRescueCollection now returns the DB instance directly
+		const db = await getRescueCollection();
 		dogs = await db.collection("dogs").find({}).toArray();
 	} catch (error) {
 		console.error("Error fetching dogs:", error);
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-100 p-4">
+		<div className="min-h-screen w-[calc(100vw-300px)] bg-gray-100 p-4">
 			<div className="container mx-auto">
 				<h1 className="text-3xl font-bold mb-6">Dogs Listing</h1>
 				<div className="overflow-x-auto">
@@ -25,6 +24,7 @@ export default async function DogsListingPage() {
 								<th className="py-3 px-4 text-left">Age</th>
 								<th className="py-3 px-4 text-left">Sex</th>
 								<th className="py-3 px-4 text-left">Color</th>
+								<th className="py-3 px-4 text-left">Intact</th>
 								<th className="py-3 px-4 text-left">Adoption Fee</th>
 								<th className="py-3 px-4 text-left">Actions</th>
 							</tr>
@@ -37,6 +37,7 @@ export default async function DogsListingPage() {
 									<td className="py-3 px-4">{dog.age}</td>
 									<td className="py-3 px-4">{dog.sex}</td>
 									<td className="py-3 px-4">{dog.color}</td>
+									<td className="py-3 px-4">{dog.intact}</td>
 									<td className="py-3 px-4">${dog.adoptionFee}</td>
 									<td className="py-3 px-4">
 										<Link

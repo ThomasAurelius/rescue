@@ -2,22 +2,18 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import clientPromise from "@/app/lib/mongodb";
+import { getRescueCollection } from "@/app/lib/mongodb";
 
 export async function POST(request) {
 	try {
 		const { email, password } = await request.json();
 
-		// Connect to DB and get user by email
-		const client = await clientPromise;
-		const db = client.db();
+		// getRescueCollection now returns the DB instance directly
+		const db = await getRescueCollection();
 		const usersCollection = db.collection("users");
 		const user = await usersCollection.findOne({ email });
 		if (!user) {
-			return NextResponse.json(
-				{ error: "Invalid email or password" },
-				{ status: 401 }
-			);
+			return NextResponse.json({ error: "Invalid email" }, { status: 401 });
 		}
 
 		// Compare provided password with the hashed password in DB
@@ -40,7 +36,7 @@ export async function POST(request) {
 		const response = NextResponse.json({ message: "Login successful" });
 		response.cookies.set("token", token, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === "production", // true in prod, false in dev
+			secure: process.env.NODE_ENV === "production",
 			sameSite: "strict",
 			maxAge: 60 * 60 * 24, // 1 day in seconds
 			path: "/", // root path – cookie valid for entire site

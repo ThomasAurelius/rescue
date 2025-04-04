@@ -1,5 +1,5 @@
 // app/dogs/[id]/page.jsx
-import clientPromise from "../../../../lib/mongodb";
+import { getRescueCollection } from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +9,7 @@ export default async function DogViewPage({ params }) {
 	let dog = null;
 
 	try {
-		const client = await clientPromise;
-		const db = client.db();
+		const db = await getRescueCollection(); // db instance is returned directly
 		dog = await db.collection("dogs").findOne({ _id: new ObjectId(id) });
 	} catch (error) {
 		console.error("Error fetching dog data:", error);
@@ -33,7 +32,7 @@ export default async function DogViewPage({ params }) {
 					</button>
 				</Link>
 				<Image
-					src="/assets/bernie1.jpg"
+					src={dog.imageUrl}
 					width={500}
 					height={300}
 					alt="Dog Image"

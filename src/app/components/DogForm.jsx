@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { uploadImage } from "../../../../utils/uploadImage";
+import React, { useState, useEffect } from "react";
 
-const RegisterDog = () => {
+const DogForm = ({ initialData = {}, onSubmit, isEditMode = false }) => {
 	const [formData, setFormData] = useState({
 		name: "",
 		breed: "",
@@ -22,11 +21,26 @@ const RegisterDog = () => {
 		species: "",
 		companions: "", // comma-separated values
 		size: "",
-		imageUrl: "", // URL of the uploaded image
+		...initialData,
 	});
+
 	const [message, setMessage] = useState("");
-	const [file, setFile] = useState(null);
-	const [downloadUrl, setDownloadUrl] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
+
+	// If in edit mode and initialData changes (e.g., after fetch), update form
+	useEffect(() => {
+		if (isEditMode && Object.keys(initialData).length > 0) {
+			// Convert companions array to comma-separated string if needed
+			const companions = Array.isArray(initialData.companions)
+				? initialData.companions.join(", ")
+				: initialData.companions || "";
+
+			setFormData({
+				...initialData,
+				companions,
+			});
+		}
+	}, [initialData, isEditMode]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -38,30 +52,38 @@ const RegisterDog = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setIsLoading(true);
+		setMessage("");
 
-		// Convert appropriate fields to numbers and companions to an array.
+		// Convert appropriate fields to numbers and companions to an array
 		const dataToSend = {
 			...formData,
-			age: Number(formData.age),
-			weight: Number(formData.weight),
-			adoptionFee: Number(formData.adoptionFee),
+			age: Number(formData.age) || 0,
+			weight: Number(formData.weight) || 0,
+			adoptionFee: Number(formData.adoptionFee) || 0,
 			companions: formData.companions
-				.split(",")
-				.map((item) => item.trim())
-				.filter(Boolean),
+				? formData.companions
+						.split(",")
+						.map((item) => item.trim())
+						.filter(Boolean)
+				: [],
 		};
 
-		try {
-			const res = await fetch("/api/dogs/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(dataToSend),
-			});
+		// Remove _id from the data to send if it exists (MongoDB doesn't allow updating _id)
+		if (dataToSend._id) {
+			delete dataToSend._id;
+		}
 
-			if (res.ok) {
-				setMessage("Dog registered successfully!");
+		try {
+			await onSubmit(dataToSend);
+			setMessage(
+				isEditMode
+					? "Dog updated successfully!"
+					: "Dog registered successfully!"
+			);
+
+			if (!isEditMode) {
+				// Only reset form for new registrations, not edits
 				setFormData({
 					name: "",
 					breed: "",
@@ -81,63 +103,44 @@ const RegisterDog = () => {
 					species: "",
 					companions: "",
 					size: "",
-					imageUrl: "",
 				});
-				setDownloadUrl("");
-			} else {
-				const errorData = await res.json();
-				setMessage(`Error: ${errorData.error}`);
 			}
 		} catch (error) {
-			setMessage("Error registering dog");
+			setMessage(`Error: ${error.message || "Something went wrong"}`);
 			console.error(error);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
-	const handleFileChange = (e) => {
-		setFile(e.target.files[0]);
-	};
-
-	const handleUpload = async () => {
-		try {
-			const url = await uploadImage(file);
-			setDownloadUrl(url);
-			// Update formData.imageUrl so it gets sent to MongoDB on submit.
-			setFormData((prev) => ({
-				...prev,
-				imageUrl: url,
-			}));
-		} catch (error) {
-			console.error("Error uploading image:", error);
-		}
-	};
+	// The rest of the component remains the same as in my previous response
+	// ... (form JSX)
 
 	return (
-		<div className="flex flex-col justify-center items-center w-[calc(100vw-300px)] max-w-4xl mx-auto px-4 py-8">
+		<div className="flex flex-col justify-center items-center w-full max-w-4xl mx-auto px-4 py-8">
 			<h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-				Register a New Dog
+				{isEditMode ? "Edit Dog Information" : "Register a New Dog"}
 			</h1>
+
 			{message && (
-				<p className="text-center text-xl text-green-600 mb-4">{message}</p>
+				<div
+					className={`text-center text-xl mb-4 p-3 rounded-md ${
+						message.includes("Error")
+							? "bg-red-100 text-red-700"
+							: "bg-green-100 text-green-700"
+					}`}
+				>
+					{message}
+				</div>
 			)}
+
 			<form
 				onSubmit={handleSubmit}
-				className="grid grid-cols-1 md:grid-cols-2 gap-6"
+				className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
 			>
-				<div>
-					<input
-						id="imageUrl"
-						name="imageUrl"
-						type="file"
-						accept="image/*"
-						onChange={handleFileChange}
-					/>
-					<button type="button" onClick={handleUpload}>
-						Upload Image
-					</button>
-					{downloadUrl && <img src={downloadUrl} alt="Uploaded" />}
-				</div>
-				{/* Column 1 */}
+				{/* Form fields remain the same as in previous response */}
+				{/* ... */}
+
 				<div>
 					<label
 						htmlFor="name"
@@ -152,7 +155,7 @@ const RegisterDog = () => {
 						value={formData.name}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -169,7 +172,7 @@ const RegisterDog = () => {
 						value={formData.breed}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -186,7 +189,7 @@ const RegisterDog = () => {
 						value={formData.age}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -203,24 +206,7 @@ const RegisterDog = () => {
 						value={formData.color}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
-					/>
-				</div>
-				<div>
-					<label
-						htmlFor="intact"
-						className="block text-gray-700 font-medium mb-2"
-					>
-						Intact
-					</label>
-					<input
-						type="text"
-						id="intact"
-						name="intact"
-						value={formData.intact}
-						onChange={handleChange}
-						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				{/* Full width */}
@@ -237,7 +223,8 @@ const RegisterDog = () => {
 						value={formData.description}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						rows="3"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					></textarea>
 				</div>
 
@@ -254,7 +241,7 @@ const RegisterDog = () => {
 						value={formData.sex}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					>
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>
@@ -274,7 +261,7 @@ const RegisterDog = () => {
 						value={formData.weight}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -291,7 +278,7 @@ const RegisterDog = () => {
 						value={formData.activityLevel}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -308,7 +295,7 @@ const RegisterDog = () => {
 						value={formData.indoorOutdoor}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -325,7 +312,7 @@ const RegisterDog = () => {
 						value={formData.goodWithKids}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -342,7 +329,7 @@ const RegisterDog = () => {
 						value={formData.goodWithPets}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				{/* Full width */}
@@ -359,7 +346,8 @@ const RegisterDog = () => {
 						value={formData.healthStatus}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						rows="2"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					></textarea>
 				</div>
 				<div className="md:col-span-2">
@@ -370,13 +358,13 @@ const RegisterDog = () => {
 						Training Level
 					</label>
 					<textarea
-						type="text"
 						id="trainingLevel"
 						name="trainingLevel"
 						value={formData.trainingLevel}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						rows="2"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				{/* Full width */}
@@ -393,7 +381,8 @@ const RegisterDog = () => {
 						value={formData.specialNeeds}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						rows="2"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					></textarea>
 				</div>
 				<div>
@@ -410,7 +399,7 @@ const RegisterDog = () => {
 						value={formData.adoptionFee}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div>
@@ -427,7 +416,24 @@ const RegisterDog = () => {
 						value={formData.size}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+					/>
+				</div>
+				<div>
+					<label
+						htmlFor="species"
+						className="block text-gray-700 font-medium mb-2"
+					>
+						Species
+					</label>
+					<input
+						type="text"
+						id="species"
+						name="species"
+						value={formData.species}
+						onChange={handleChange}
+						required
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 				<div className="md:col-span-2">
@@ -438,23 +444,29 @@ const RegisterDog = () => {
 						Companions (comma separated)
 					</label>
 					<textarea
-						type="text"
 						id="companions"
 						name="companions"
 						value={formData.companions}
 						onChange={handleChange}
 						required
-						className="w-full p-2 border border-gray-300 rounded"
+						className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 					/>
 				</div>
 
 				{/* Submit button spanning both columns */}
-				<div className="md:col-span-2 text-center">
+				<div className="md:col-span-2 text-center mt-4">
 					<button
 						type="submit"
-						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+						disabled={isLoading}
+						className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md disabled:opacity-50"
 					>
-						Register Dog
+						{isLoading ? (
+							<span>Processing...</span>
+						) : isEditMode ? (
+							"Update Dog Information"
+						) : (
+							"Register Dog"
+						)}
 					</button>
 				</div>
 			</form>
@@ -462,4 +474,4 @@ const RegisterDog = () => {
 	);
 };
 
-export default RegisterDog;
+export default DogForm;

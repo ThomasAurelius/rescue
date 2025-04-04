@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const menuItems = [
@@ -24,9 +24,7 @@ const menuItems = [
 				label: "Fostering and Volunteer Info",
 				href: "/support/fostering-volunteer",
 			},
-
 			{ label: "Sponsor a Dachshund", href: "/support/sponsor-a-dachshund" },
-
 			{ label: "Our Supporters", href: "/support/our-supporters" },
 		],
 	},
@@ -36,11 +34,8 @@ const menuItems = [
 		submenu: [
 			{ label: "Description", href: "/learn/description" },
 			{ label: "Adoption Process", href: "/learn/adoption-process" },
-			{
-				label: "IVDD Resources",
-				href: "/learn/ivdd",
-			},
-			{ label: "FAQ?", href: "/learn/faq" },
+			{ label: "IVDD Resources", href: "/learn/ivdd" },
+			{ label: "FAQ", href: "/learn/faq" },
 		],
 	},
 	{
@@ -48,10 +43,7 @@ const menuItems = [
 		href: "/our-dogs",
 		submenu: [
 			{ label: "Available dogs - List Style", href: "/our-dogs/list" },
-			{
-				label: "Available dogs - Page Browse Style",
-				href: "/our-dogs/page",
-			},
+			{ label: "Available dogs - Grid Style", href: "/our-dogs/grid" },
 			{ label: "Recent Arrivals", href: "/our-dogs/recent-arrivals" },
 			{ label: "Puppies", href: "/our-dogs/puppies" },
 			{ label: "Adult Dogs", href: "/our-dogs/adult-dogs" },
@@ -73,24 +65,83 @@ const menuItems = [
 			{ label: "Headline News", href: "/information/headline-news" },
 			{ label: "Photo Gallery", href: "/information/photo-gallery" },
 			{ label: "Happy Tails!", href: "/information/happy-tails" },
-			{
-				label: "Comanche County Puppymill Raid",
-				href: "/information/puppymill-raid",
-			},
 		],
 	},
-	{ label: "Guestbook", href: "/guestbook" },
-	{ label: "Login", href: "/login" },
-	{ label: "Register", href: "/register" },
 ];
 
 const Navbar = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [openSubmenus, setOpenSubmenus] = useState({});
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [user, setUser] = useState(null);
+	const [userMenuOpen, setUserMenuOpen] = useState(false);
+	const userMenuRef = useRef(null);
+
+	// Fetch the logged-in user's profile from /api/profile on mount
+	useEffect(() => {
+		async function fetchProfile() {
+			try {
+				const res = await fetch("/api/profile", {
+					credentials: "include",
+				});
+				if (res.ok) {
+					const data = await res.json();
+					if (data.user) {
+						setIsLoggedIn(true);
+						setUser(data.user);
+					} else {
+						setIsLoggedIn(false);
+						setUser(null);
+					}
+				} else {
+					setIsLoggedIn(false);
+					setUser(null);
+				}
+			} catch (error) {
+				console.error("Error fetching profile:", error);
+				setIsLoggedIn(false);
+				setUser(null);
+			}
+		}
+		fetchProfile();
+	}, []);
 
 	const toggleMenu = () => setMenuOpen(!menuOpen);
 	const toggleSubmenu = (index) =>
 		setOpenSubmenus((prev) => ({ ...prev, [index]: !prev[index] }));
+	const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
+
+	// Close the user menu if clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				userMenuRef.current &&
+				!userMenuRef.current.contains(event.target)
+			) {
+				setUserMenuOpen(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
+	const handleLogout = async () => {
+		try {
+			const res = await fetch("/api/auth/logout", {
+				method: "POST",
+				credentials: "include",
+			});
+			if (res.ok) {
+				setIsLoggedIn(false);
+				setUser(null);
+				window.location.href = "/";
+			}
+		} catch (error) {
+			console.error("Logout error:", error);
+		}
+	};
 
 	return (
 		<nav className="bg-gray-800 text-white">
@@ -102,8 +153,8 @@ const Navbar = () => {
 							<p className="text-xl font-bold">Dachshund Rescue</p>
 						</Link>
 					</div>
-					{/* Desktop Menu (visible on lg and above) */}
-					<div className="hidden lg:flex space-x-4">
+					{/* Desktop Menu */}
+					<div className="hidden lg:flex space-x-4 items-center">
 						{menuItems.map((item, index) => (
 							<div key={index} className="relative group">
 								{item.submenu ? (
@@ -143,8 +194,62 @@ const Navbar = () => {
 								)}
 							</div>
 						))}
+						{/* Conditionally render Login/Register or the User Icon */}
+						{!isLoggedIn ? (
+							<>
+								<Link href="/login">
+									<p className="hover:text-gray-300">Login</p>
+								</Link>
+								<Link href="/register">
+									<p className="hover:text-gray-300">Register</p>
+								</Link>
+							</>
+						) : (
+							<div className="relative" ref={userMenuRef}>
+								<button
+									onClick={toggleUserMenu}
+									className="flex items-center focus:outline-none"
+								>
+									{/* User Icon SVG */}
+									<svg
+										className="h-6 w-6 text-white"
+										fill="currentColor"
+										viewBox="0 0 24 24"
+									>
+										<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+									</svg>
+								</button>
+								{userMenuOpen && (
+									<div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-20">
+										{user?.role === "admin" && (
+											<Link href="/admin">
+												<p className="block px-4 py-2 hover:bg-gray-600">
+													Admin
+												</p>
+											</Link>
+										)}
+										<Link href="/profile">
+											<p className="block px-4 py-2 hover:bg-gray-600">
+												Profile
+											</p>
+										</Link>
+										<Link href="/settings">
+											<p className="block px-4 py-2 hover:bg-gray-600">
+												Settings
+											</p>
+										</Link>
+										<button
+											onClick={handleLogout}
+											className="w-full text-left block px-4 py-2 hover:bg-gray-600"
+										>
+											Logout
+										</button>
+									</div>
+								)}
+							</div>
+						)}
 					</div>
-					{/* Mobile Menu Button (visible on screens smaller than lg) */}
+					{/* Mobile Menu Button */}
 					<div className="lg:hidden">
 						<button
 							onClick={toggleMenu}
@@ -176,7 +281,7 @@ const Navbar = () => {
 					</div>
 				</div>
 			</div>
-			{/* Mobile Menu (visible on screens smaller than lg) */}
+			{/* Mobile Menu */}
 			<div className={`${menuOpen ? "block" : "hidden"} lg:hidden`}>
 				<ul className="px-2 pt-2 pb-3 space-y-1">
 					{menuItems.map((item, index) => (
@@ -214,6 +319,68 @@ const Navbar = () => {
 							)}
 						</li>
 					))}
+					{!isLoggedIn ? (
+						<>
+							<li>
+								<Link href="/login">
+									<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
+										Login
+									</p>
+								</Link>
+							</li>
+							<li>
+								<Link href="/register">
+									<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
+										Register
+									</p>
+								</Link>
+							</li>
+						</>
+					) : (
+						<li>
+							<button
+								onClick={toggleUserMenu}
+								className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-700 focus:outline-none"
+							>
+								User Menu
+							</button>
+							{userMenuOpen && (
+								<ul className="pl-4">
+									{user?.role === "admin" && (
+										<li>
+											<Link href="/admin">
+												<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
+													Admin
+												</p>
+											</Link>
+										</li>
+									)}
+									<li>
+										<Link href="/profile">
+											<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
+												Profile
+											</p>
+										</Link>
+									</li>
+									<li>
+										<Link href="/settings">
+											<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
+												Settings
+											</p>
+										</Link>
+									</li>
+									<li>
+										<button
+											onClick={handleLogout}
+											className="w-full text-left block px-3 py-2 rounded-md hover:bg-gray-700"
+										>
+											Logout
+										</button>
+									</li>
+								</ul>
+							)}
+						</li>
+					)}
 				</ul>
 			</div>
 		</nav>

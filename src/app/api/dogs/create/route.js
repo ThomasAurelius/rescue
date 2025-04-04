@@ -1,6 +1,6 @@
 // app/api/dogs/create/route.js
 import jwt from "jsonwebtoken";
-import clientPromise from "../../../lib/mongodb";
+import { getRescueCollection } from "../../../lib/mongodb";
 
 export async function POST(request) {
 	try {
@@ -44,6 +44,7 @@ export async function POST(request) {
 			size,
 			companions,
 			location,
+			imageUrl,
 		} = await request.json();
 		if (!name) {
 			return new Response(
@@ -53,8 +54,8 @@ export async function POST(request) {
 		}
 
 		// Connect to the database and access the "dogs" collection
-		const client = await clientPromise;
-		const db = client.db();
+		// getRescueCollection returns the DB instance directly.
+		const db = await getRescueCollection();
 		const dogsCollection = db.collection("dogs");
 
 		// Create the new dog document, associating it with the authenticated user
@@ -66,25 +67,25 @@ export async function POST(request) {
 			color: color || null,
 			description: description || null,
 			sex: sex || null,
-			weight: weight || null, // Ensure weight is provided; fallback to null if not
+			weight: weight || null,
 			activityLevel: activityLevel || null,
 			indoorOutdoor: indoorOutdoor || null,
 			goodWithKids: goodWithKids || null,
 			goodWithPets: goodWithPets || null,
-			healthStatus: healthStatus || null, // e.g., "Healthy", "Needs care"
-			trainingLevel: trainingLevel || null, // e.g., "Basic", "Advanced"
-			specialNeeds: specialNeeds || null, // e.g., "None", "Requires medication"
-			adoptionFee: adoptionFee || null, // e.g., 100, 200
-			size: size || null, // e.g., "Small", "Medium", "Large"
+			healthStatus: healthStatus || null,
+			trainingLevel: trainingLevel || null,
+			specialNeeds: specialNeeds || null,
+			adoptionFee: adoptionFee || null,
+			size: size || null,
+			imageUrl: imageUrl || null, // Placeholder for image URL
 			companions: Array.isArray(companions)
 				? companions
 						.filter(
 							(companion) =>
 								typeof companion === "string" && companion.trim() !== ""
 						)
-						.map((companion) => companion.trim()) // Ensure companions is an array of non-empty strings
-				: [], // Default to empty array if not provided or invalid
-
+						.map((companion) => companion.trim())
+				: [],
 			createdBy: payload.userId,
 			createdAt: new Date(),
 		};

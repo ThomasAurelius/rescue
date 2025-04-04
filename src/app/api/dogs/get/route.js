@@ -1,35 +1,36 @@
-import { getRescueCollection } from "../../../lib/mongodb";
+// app/api/dogs/get/route.js
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { getRescueCollection } from "../../../lib/mongodb"; // or your helper to get the DB
+import { ObjectId } from "mongodb";
 
-export default async function handler(req, res) {
-	if (req.method !== "GET") {
-		res.setHeader("Allow", "GET");
-		return res.status(405).json({ error: "Method not allowed" });
-	}
-
-	// Retrieve token from the Authorization header (expected format: "Bearer <token>")
-	const authHeader = req.headers.authorization;
-	if (!authHeader) {
-		return res.status(401).json({ error: "No token provided" });
-	}
-
-	const token = authHeader.split(" ")[1];
+export async function GET(request) {
+	// Await cookies() before using its value
+	const cookieStore = await cookies();
+	const token = cookieStore.get("token")?.value;
 	if (!token) {
-		return res.status(401).json({ error: "No token provided" });
+		return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 	}
 
 	try {
-		// Verify token (replace process.env.JWT_SECRET with your actual secret)
-		jwt.verify(token, process.env.JWT_SECRET);
-	} catch (error) {
-		return res.status(401).json({ error: "Invalid token" });
-	}
+		const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-	try {
-		const rescueCollection = await getRescueCollection();
-		const records = await rescueCollection.find({}).toArray();
-		return res.status(200).json(records);
-	} catch (error) {
-		return res.status(500).json({ error: error.message });
+		// Connect to the database; adjust if you use a helper that returns the DB instance
+		const db = await getRescueCollection();
+		// Fetch all dogs, then pick one randomly
+		const dogs = await db.collection("dogs").find({}).toArray();
+		if (!dogs || dogs.length === 0) {
+			return NextResponse.json({ error: "No dogs found" }, { status: 404 });
+		}
+		const randomDog = dogs[Math.floor(Math.random() * dogs.length)];
+
+		return NextResponse.json({ dog: randomDog });
+	} catch (err) {
+		console.error("JWT verification error:", err);
+		return NextResponse.json(
+			{ error: "Invalid or expired token" },
+			{ status: 401 }
+		);
 	}
 }
