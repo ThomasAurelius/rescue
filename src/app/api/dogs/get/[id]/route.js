@@ -1,6 +1,6 @@
 // src/app/api/dogs/get/[id]/route.js
 import { NextResponse } from "next/server";
-import { getRescueCollection } from "../../../../../lib/mongodb";
+import { getRescueCollection } from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export async function GET(request, { params }) {

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { uploadImage } from "../../../../utils/uploadImage";
+import { uploadImage } from "../../../../../utils/uploadImage";
 
 export default function EditAdoptionPage() {
 	const { id } = useParams();

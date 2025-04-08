@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRescueCollection } from "../../../../../lib/mongodb";
+import { getRescueCollection } from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export async function PUT(request) {
