@@ -47,8 +47,8 @@ export default function Login() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-50">
-			<div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-md">
+		<div className="min-h-screen w-[calc(100vw-300px)] flex items-start justify-center ">
+			<div className="max-w-md w-full  space-y-8 p-10 bg-gray-50 rounded-xl shadow-md">
 				<div>
 					<h2 className="text-center text-3xl font-extrabold text-gray-900">
 						Sign in to your account
