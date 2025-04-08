@@ -84,7 +84,7 @@ export default function Home() {
 				<div className="flex flex-col items-center justify-between border-1 border-gray-300 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg p-4 w-[300px]">
 					<h1 className="text-2xl font-bold">Sponsor a Dog</h1>
 					<Image
-						src="/assets/bernie1.jpg"
+						src="/assets/jackson.jpeg"
 						alt="Dog"
 						width="200"
 						height="200"

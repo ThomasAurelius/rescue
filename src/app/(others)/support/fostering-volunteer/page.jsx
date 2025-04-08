@@ -72,6 +72,13 @@ const VolunteeringAndFosteringPage = () => {
 					positive impact on the lives of our rescue dogs.
 				</p>
 			</section>
+			<div className="text-center bg-teal-50 rounded-lg text-xl text-gray-600 mt-4">
+				If you are ready to foster or volunteer, please fill out our{" "}
+				<a className="text-blue-600 underline" href="/support/application">
+					application
+				</a>{" "}
+				to get started.
+			</div>
 		</div>
 	);
 };

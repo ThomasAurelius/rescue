@@ -48,9 +48,9 @@ const LeftBar = () => {
 						<p className="text-md mt-2">Name: {featuredDog.name}</p>
 						<p className="text-md">Age: {featuredDog.age} years</p>
 						<p className="text-md">Breed: {featuredDog.breed}</p>
-						<p className="text-md">Location: {featuredDog.location}</p>
+
 						<Link href="/support/adoption-info">
-							<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-2 px-4 rounded mt-4">
+							<button className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 mb-2 px-4 rounded mt-4">
 								Adopt Me!
 							</button>
 						</Link>
@@ -66,7 +66,7 @@ const LeftBar = () => {
 				</h1>
 				<p className="text-2xl mt-2">Donate today!</p>
 				<Link href="/support/donations">
-					<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4">
+					<button className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4">
 						Donate
 					</button>
 				</Link>
@@ -111,7 +111,10 @@ const LeftBar = () => {
 					placeholder="Enter your email"
 					className="border-2 border-gray-300 bg-white rounded-lg p-2 mb-2"
 				/>
-				<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4">
+				<button
+					className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4"
+					onClick={() => alert("Subscribed!")}
+				>
 					Subscribe
 				</button>
 			</section>

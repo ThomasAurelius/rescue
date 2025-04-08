@@ -1,11 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import Image from "next/image";
+import React, { useState } from "react";
 import { uploadImage } from "../../../../utils/uploadImage";
 
-export default function EditAdoptionPage() {
-	const { id } = useParams();
+export default function AddAdoptionPage() {
+	// State for text/number fields
 	const [formData, setFormData] = useState({
 		dogName: "",
 		breed: "",
@@ -14,76 +12,51 @@ export default function EditAdoptionPage() {
 		familyName: "",
 		sex: "Male",
 		adoptionDate: "",
-		imageUrl: "", // Featured image URL
+		imageUrl: "", // Featured image URL (from Firebase)
 	});
+
+	// State for gallery images URLs (array)
 	const [galleryUrls, setGalleryUrls] = useState([]);
+	// Local file states for featured and gallery images
 	const [featuredFile, setFeaturedFile] = useState(null);
 	const [galleryFiles, setGalleryFiles] = useState([]);
+	// Message state for feedback
 	const [message, setMessage] = useState("");
-	const [loading, setLoading] = useState(true);
 
-	// Fetch existing adoption data
-	useEffect(() => {
-		async function fetchAdoption() {
-			try {
-				const res = await fetch(`/api/adoption/get/${id}`);
-				if (!res.ok) {
-					throw new Error("Failed to fetch adoption data");
-				}
-				const data = await res.json();
-				// Assume API returns an adoption record directly
-				setFormData({
-					dogName: data.dogName || "",
-					breed: data.breed || "",
-					age: data.age || "",
-					description: data.description || "",
-					familyName: data.familyName || "",
-					sex: data.sex || "Male",
-					adoptionDate: data.adoptionDate
-						? new Date(data.adoptionDate).toISOString().split("T")[0]
-						: "",
-					imageUrl: data.imageUrl || "",
-				});
-				setGalleryUrls(
-					Array.isArray(data.images)
-						? data.images
-						: data.images
-						? [data.images]
-						: []
-				);
-			} catch (err) {
-				console.error("Error fetching adoption:", err);
-				setMessage("Error loading adoption data.");
-			} finally {
-				setLoading(false);
-			}
-		}
-		if (id) fetchAdoption();
-	}, [id]);
-
+	// Update form fields
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
 	};
 
+	// Handle featured image file input
 	const handleFeaturedFileChange = (e) => {
 		setFeaturedFile(e.target.files[0]);
 	};
 
+	// Handle gallery images file input (allow multiple)
 	const handleGalleryFilesChange = (e) => {
 		setGalleryFiles(Array.from(e.target.files));
 	};
 
+	// Upload the featured image to Firebase and update formData.imageUrl
 	const handleUploadFeaturedImage = async () => {
 		if (!featuredFile) return;
 		try {
 			const url = await uploadImage(featuredFile);
-			setFormData((prev) => ({ ...prev, imageUrl: url }));
+			setFormData((prev) => ({
+				...prev,
+				imageUrl: url,
+			}));
 		} catch (error) {
 			console.error("Error uploading featured image:", error);
 		}
 	};
 
+	// Upload gallery images to Firebase and update galleryUrls state
 	const handleUploadGalleryImages = async () => {
 		if (!galleryFiles.length) return;
 		try {
@@ -96,19 +69,20 @@ export default function EditAdoptionPage() {
 		}
 	};
 
+	// Handle form submission
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		// Optionally upload images if files are provided
-		if (featuredFile && !formData.imageUrl) {
+		// Ensure featured image and gallery images are uploaded
+		if (!formData.imageUrl && featuredFile) {
 			await handleUploadFeaturedImage();
 		}
 		if (galleryFiles.length > 0 && galleryUrls.length === 0) {
 			await handleUploadGalleryImages();
 		}
 
+		// Construct payload with proper types
 		const dataToSend = {
-			id, // include the adoption ID
 			...formData,
 			age: Number(formData.age),
 			adoptionDate: new Date(formData.adoptionDate),
@@ -116,34 +90,40 @@ export default function EditAdoptionPage() {
 		};
 
 		try {
-			const res = await fetch("/api/adoptions/edit", {
-				method: "PUT",
+			const res = await fetch("/api/adoption/create", {
+				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(dataToSend),
 			});
 			if (res.ok) {
-				setMessage("Adoption updated successfully!");
+				setMessage("Adoption added successfully!");
+				// Reset states
+				setFormData({
+					dogName: "",
+					breed: "",
+					age: "",
+					description: "",
+					familyName: "",
+					sex: "Male",
+					adoptionDate: "",
+					imageUrl: "",
+				});
+				setGalleryUrls([]);
+				setFeaturedFile(null);
+				setGalleryFiles([]);
 			} else {
 				const errorData = await res.json();
 				setMessage(`Error: ${errorData.error}`);
 			}
 		} catch (error) {
-			console.error("Error updating adoption:", error);
-			setMessage("Error updating adoption");
+			console.error("Error submitting adoption:", error);
+			setMessage("Error submitting adoption");
 		}
 	};
 
-	if (loading) {
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<p>Loading adoption data...</p>
-			</div>
-		);
-	}
-
 	return (
 		<div className="container mx-auto p-8">
-			<h1 className="text-4xl font-bold mb-8 text-center">Edit Adoption</h1>
+			<h1 className="text-4xl font-bold mb-8 text-center">Add Adoption</h1>
 			{message && <p className="mb-4 text-center text-lg">{message}</p>}
 			<form
 				onSubmit={handleSubmit}
@@ -352,7 +332,7 @@ export default function EditAdoptionPage() {
 						type="submit"
 						className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
 					>
-						Update Adoption
+						Add Adoption
 					</button>
 				</div>
 			</form>

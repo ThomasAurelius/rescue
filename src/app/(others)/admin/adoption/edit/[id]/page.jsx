@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { uploadImage } from "../../../../utils/uploadImage";
+import { uploadImage } from "../../../../../utils/uploadImage";
 
 export default function EditAdoptionPage() {
 	const { id } = useParams();
@@ -142,7 +142,7 @@ export default function EditAdoptionPage() {
 	}
 
 	return (
-		<div className="container mx-auto p-8">
+		<div className="w-[calc(100vw-300px)] mx-auto p-8">
 			<h1 className="text-4xl font-bold mb-8 text-center">Edit Adoption</h1>
 			{message && <p className="mb-4 text-center text-lg">{message}</p>}
 			<form

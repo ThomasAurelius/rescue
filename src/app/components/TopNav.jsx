@@ -8,10 +8,9 @@ const menuItems = [
 		href: "/",
 		submenu: [
 			{ label: "Home Page", href: "/" },
-			{ label: "Store", href: "/store" },
 			{ label: "Links & Resources", href: "/links-resources" },
-			{ label: "Events", href: "/events" },
-			{ label: "Shopping Partners", href: "/shopping-partners" },
+			// { label: "Events", href: "/events" },
+			// { label: "Shopping Partners", href: "/shopping-partners" },
 		],
 	},
 	{
@@ -42,18 +41,18 @@ const menuItems = [
 		label: "Our Dogs",
 		href: "/our-dogs",
 		submenu: [
-			{ label: "Available dogs - List Style", href: "/our-dogs/list" },
-			{ label: "Available dogs - Grid Style", href: "/our-dogs/grid" },
-			{ label: "Recent Arrivals", href: "/our-dogs/recent-arrivals" },
-			{ label: "Puppies", href: "/our-dogs/puppies" },
-			{ label: "Adult Dogs", href: "/our-dogs/adult-dogs" },
-			{ label: "Senior Sweethearts", href: "/our-dogs/senior-sweethearts" },
-			{ label: "Special Needs Dogs", href: "/our-dogs/special-needs" },
+			{ label: "Available dogs", href: "/our-dogs/list" },
+			// { label: "Available dogs - Grid Style", href: "/our-dogs/grid" },
+			// { label: "Recent Arrivals", href: "/our-dogs/recent-arrivals" },
+			// { label: "Puppies", href: "/our-dogs/puppies" },
+			// { label: "Adult Dogs", href: "/our-dogs/adult-dogs" },
+			// { label: "Senior Sweethearts", href: "/our-dogs/senior-sweethearts" },
+			// { label: "Special Needs Dogs", href: "/our-dogs/special-needs" },
 			{
 				label: "Successful Adoptions",
 				href: "/our-dogs/successful-adoptions",
 			},
-			{ label: "Rainbow Bridge", href: "/our-dogs/rainbow-bridge" },
+			// { label: "Rainbow Bridge", href: "/our-dogs/rainbow-bridge" },
 		],
 	},
 	{
@@ -62,9 +61,9 @@ const menuItems = [
 		submenu: [
 			{ label: "About Us", href: "/information/about-us" },
 			{ label: "Contact Us", href: "/information/contact-us" },
-			{ label: "Headline News", href: "/information/headline-news" },
+			// { label: "Headline News", href: "/information/headline-news" },
 			{ label: "Photo Gallery", href: "/information/photo-gallery" },
-			{ label: "Happy Tails!", href: "/information/happy-tails" },
+			// { label: "Happy Tails!", href: "/information/happy-tails" },
 		],
 	},
 ];

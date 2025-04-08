@@ -17,6 +17,27 @@ const AdminPage = () => {
 						View List Dogs
 					</button>
 				</Link>
+				<Link href="/admin/adoption/add">
+					<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200">
+						Add Adoption
+					</button>
+				</Link>
+				<Link href="/admin/adoption/list">
+					<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200">
+						View List Adoptions
+					</button>
+				</Link>
+
+				<Link href="/admin/application/list">
+					<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200">
+						View List Applications
+					</button>
+				</Link>
+				<Link href="/admin/application/edit">
+					<button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200">
+						Edit Application
+					</button>
+				</Link>
 			</div>
 		</div>
 	);

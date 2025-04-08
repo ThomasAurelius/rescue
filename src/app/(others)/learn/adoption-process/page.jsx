@@ -105,6 +105,13 @@ const AdoptionProcessPage = () => {
 					together to create successful, lasting adoptions.
 				</p>
 			</section>
+			<div className="text-center bg-teal-50 rounded-lg text-xl text-gray-600 mt-4">
+				If you are ready to adopt, please fill out our{" "}
+				<a className="text-blue-600 underline" href="/support/application">
+					adoption application
+				</a>{" "}
+				to get started.
+			</div>
 		</div>
 	);
 };
