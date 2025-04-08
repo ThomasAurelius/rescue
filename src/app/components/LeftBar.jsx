@@ -113,7 +113,7 @@ const LeftBar = () => {
 				/>
 				<button
 					className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4"
-					onClick={() => alert("Subscribed!")}
+					onClick={() => alert("Not Subscribed!(this is just an example)")}
 				>
 					Subscribe
 				</button>
@@ -122,13 +122,9 @@ const LeftBar = () => {
 				<h1 className="text-xl p-2 text-center font-bold">
 					Shop our partners and support us!
 				</h1>
-				<Image
-					src="/assets/facebookbadge.gif"
-					alt="Shop"
-					width="200"
-					height="200"
-					className="rounded-lg mt-4 my-2"
-				/>
+				<p className="text-lg text-center mb-2">
+					Shop through our affiliate links and support us at no extra cost!
+				</p>
 				<Image
 					src="/assets/amazon.gif"
 					alt="Shop"
