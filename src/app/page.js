@@ -10,7 +10,7 @@ export default function Home() {
 			<div className="flex flex-wrap justify-center gap-4 m-auto p-4">
 				<Link href="/support/adoption-info">
 					<Image
-						src="/assets/adopt.png"
+						src="https://firebasestorage.googleapis.com/v0/b/rescue-94ae4.firebasestorage.app/o/uploads%2FAdopt.PNG?alt=media&token=4bdf4462-0aa3-4a2f-837e-783a03637103"
 						alt="Dog"
 						width="250"
 						height="250"
@@ -19,7 +19,7 @@ export default function Home() {
 				</Link>
 				<Link href="/support/fostering-volunteer">
 					<Image
-						src="/assets/volunteer.png"
+						src="https://firebasestorage.googleapis.com/v0/b/rescue-94ae4.firebasestorage.app/o/uploads%2FVolunteer.png?alt=media&token=c2217500-94d8-45ef-8c3d-cdb0f8ca984c"
 						alt="Dog"
 						width="250"
 						height="250"
@@ -28,7 +28,7 @@ export default function Home() {
 				</Link>
 				<Link href="/support/donations">
 					<Image
-						src="/assets/donate.png"
+						src="https://firebasestorage.googleapis.com/v0/b/rescue-94ae4.firebasestorage.app/o/uploads%2Fdonate.PNG?alt=media&token=a23d5358-ee65-4208-bdec-590386040f88"
 						alt="Dog"
 						width="250"
 						height="250"

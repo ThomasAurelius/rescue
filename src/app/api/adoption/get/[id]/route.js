@@ -1,6 +1,6 @@
 // app/api/adoption/get/[id]/route.js
 import { NextResponse } from "next/server";
-import { getRescueCollection } from "../../../../lib/mongodb"; // adjust the path as needed
+import { getRescueCollection } from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export async function GET(request, { params }) {
