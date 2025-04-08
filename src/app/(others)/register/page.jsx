@@ -56,10 +56,10 @@ export default function RegisterPage() {
 	};
 
 	return (
-		<div className="w-[calc(100vw-300px)] flex items-center justify-center bg-gray-100">
-			<div className="w-full max-w-md p-8 bg-white rounded shadow">
+		<div className="w-[calc(100vw-300px)] h-screen flex pt-12 items-start justify-center ">
+			<div className="w-full max-w-md p-8 bg-gray-100 rounded shadow">
 				<h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-				<form onSubmit={handleRegister} className="space-y-6">
+				<form onSubmit={handleRegister} className="bg-gray-100space-y-6">
 					<div>
 						<label className="block text-gray-700">Email:</label>
 						<input
@@ -72,7 +72,7 @@ export default function RegisterPage() {
 						/>
 					</div>
 					<div>
-						<label className="block text-gray-700">Password:</label>
+						<label className="block pt-8 text-gray-700">Password:</label>
 						<input
 							type="password"
 							name="password"
@@ -83,7 +83,7 @@ export default function RegisterPage() {
 						/>
 					</div>
 					{/* reCAPTCHA */}
-					<div className="flex justify-center">
+					<div className="flex pt-8 justify-center">
 						<ReCAPTCHA
 							sitekey="6Lcc7Q4rAAAAAIzQ2tHG78vQ7oalzkij0FVMyAUQ"
 							onChange={handleCaptchaChange}
