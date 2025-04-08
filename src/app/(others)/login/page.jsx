@@ -1,26 +1,35 @@
-"use client"; // Example login component (pages/login.js)
-import { useState } from "react";
+"use client";
+import React, { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { setToken } from "../../../../src/app/utils/auth";
 
 export default function Login() {
 	const [credentials, setCredentials] = useState({ email: "", password: "" });
+	const [captchaToken, setCaptchaToken] = useState(null);
 	const [error, setError] = useState("");
 
 	const handleChange = (e) => {
 		setCredentials({ ...credentials, [e.target.name]: e.target.value });
 	};
 
+	const handleCaptchaChange = (token) => {
+		setCaptchaToken(token);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
 
+		if (!captchaToken) {
+			setError("Please complete the captcha.");
+			return;
+		}
+
 		try {
 			const response = await fetch("/api/auth/login", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(credentials),
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ...credentials, captchaToken }),
 			});
 
 			const data = await response.json();
@@ -29,10 +38,8 @@ export default function Login() {
 				throw new Error(data.error || "Login failed");
 			}
 
-			// Store the token
+			// Store the token and redirect
 			setToken(data.token);
-
-			// Redirect to dashboard or home
 			window.location.href = "/";
 		} catch (err) {
 			setError(err.message);
@@ -84,6 +91,12 @@ export default function Login() {
 								onChange={handleChange}
 							/>
 						</div>
+					</div>
+					<div className="flex justify-center">
+						<ReCAPTCHA
+							sitekey="6Lcc7Q4rAAAAAIzQ2tHG78vQ7oalzkij0FVMyAUQ"
+							onChange={handleCaptchaChange}
+						/>
 					</div>
 					<div>
 						<button
