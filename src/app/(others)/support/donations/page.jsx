@@ -46,7 +46,7 @@ const DonationsPage = () => {
 					</button>
 				</Link>
 			</div>
-			<div className="text-center bg-blue-50 rounded-lg text-xl text-gray-600 mt-4">
+			<div className="text-center bg-teal-50 rounded-lg text-xl text-gray-600 mt-4">
 				If you are interested in making a recurring donation, please visit
 				our{" "}
 				<Link
