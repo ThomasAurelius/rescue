@@ -6,42 +6,42 @@ const supporters = [
 		name: "Happy Paws Pet Supplies",
 		description:
 			"A local pet supply store offering exclusive discounts for our rescue.",
-		logo: "/images/logo1.png", // Replace with actual path
+		logo: "/assets/happypaws.png",
 	},
 	{
 		id: 2,
 		name: "PupCare Veterinary Clinic",
 		description:
 			"Veterinary care with special rates for rescue pets and their families.",
-		logo: "/images/logo2.png", // Replace with actual path
+		logo: "/assets/pupcare.png",
 	},
 	{
 		id: 3,
 		name: "Bark & Bite Cafe",
 		description:
 			"A dog-friendly cafe that sponsors our events and supports rescue efforts.",
-		logo: "/images/logo3.png", // Replace with actual path
+		logo: "/assets/barkbite.png",
 	},
 	{
 		id: 4,
 		name: "Canine Couture",
 		description:
 			"Fashionable accessories and apparel for your furry friends, with rescue discounts.",
-		logo: "/images/logo4.png", // Replace with actual path
+		logo: "/assets/caninecouture.png",
 	},
 	{
 		id: 5,
 		name: "Pawsome Grooming",
 		description:
 			"Quality grooming services for dogs, offering exclusive deals for rescue adoptions.",
-		logo: "/images/logo5.png", // Replace with actual path
+		logo: "/assets/pawsome.png",
 	},
 	{
 		id: 6,
 		name: "Furry Friends Insurance",
 		description:
 			"Insurance packages for pet owners with special rates for rescue animals.",
-		logo: "/images/logo6.png", // Replace with actual path
+		logo: "/assets/furryfriends.png",
 	},
 ];
 

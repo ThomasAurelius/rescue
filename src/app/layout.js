@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import TopNav from "./components/TopNav";
 import LeftBar from "./components/LeftBar";
@@ -12,6 +12,19 @@ const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
 });
+
+const playfair = Playfair_Display({
+	variable: "--font-playfair",
+	weight: ["400"],
+	subsets: ["latin"],
+});
+
+const playfairBold = Playfair_Display({
+	variable: "--font-playfair-bold",
+	weight: ["700"],
+	subsets: ["latin"],
+});
+export const font = [geistSans, geistMono, playfair, playfairBold];
 
 export const metadata = {
 	title: "Dachshund Rescue Group",

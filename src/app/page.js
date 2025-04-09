@@ -1,10 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+	variable: "--font-playfair",
+	weight: ["400"],
+	subsets: ["latin"],
+});
 
 export default function Home() {
 	return (
 		<div className="flex flex-col items-center justify-center min-h-full w-[calc(100vw-300px)]">
-			<h1 className="p-4 text-3xl font-bold underline">
+			<h1 className="playfair-display p-4 text-5xl font-bold ">
 				Dachshund Rescue Group
 			</h1>
 			<div className="flex flex-wrap justify-center gap-4 m-auto p-4">
@@ -44,7 +51,9 @@ export default function Home() {
 			</p>
 			<section className="flex  flex-wrap p-4 gap-8 justify-center">
 				<div className="flex flex-col items-center justify-between border-1 border-gray-300 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg p-4 w-[300px]">
-					<h1 className="text-2xl font-bold">Available Dogs</h1>
+					<h1 className="playfair-display text-2xl font-bold">
+						Available Dogs
+					</h1>
 					<Image
 						src="/assets/bernie1.jpg"
 						alt="Dog"
@@ -63,7 +72,9 @@ export default function Home() {
 					</Link>
 				</div>
 				<div className="flex flex-col items-center justify-between border-1 border-gray-300 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg p-4 w-[300px]">
-					<h1 className="text-2xl font-bold">Adoption Application</h1>
+					<h1 className="text-2xl playfair-display font-bold">
+						Adoption Application
+					</h1>
 					<Image
 						src="/assets/application.jpg"
 						alt="Dog"
@@ -82,7 +93,9 @@ export default function Home() {
 					</Link>
 				</div>
 				<div className="flex flex-col items-center justify-between border-1 border-gray-300 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg p-4 w-[300px]">
-					<h1 className="text-2xl font-bold">Sponsor a Dog</h1>
+					<h1 className="text-2xl playfair-display font-bold">
+						Sponsor a Dog
+					</h1>
 					<Image
 						src="/assets/jackson.jpeg"
 						alt="Dog"
