@@ -52,7 +52,7 @@ export default function Home() {
 						height="200"
 						className="rounded-lg mt-4"
 					/>
-					<p>
+					<p className="py-2">
 						We have dachshunds of all ages, from puppies to seniors. We
 						will work with you to find the right dog for your family!
 					</p>
@@ -71,7 +71,7 @@ export default function Home() {
 						height="200"
 						className="rounded-lg mt-4"
 					/>
-					<p>
+					<p className="py-2">
 						Fill out the adoption application to get started on the
 						adoption process.
 					</p>
@@ -90,7 +90,9 @@ export default function Home() {
 						height="200"
 						className="rounded-lg mt-4"
 					/>
-					<p>
+					<p className="py-2">
+						Your support is crucial to our mission.
+						<br />
 						Make a world of difference in the life of a dog in need by
 						sponsoring their care.
 					</p>
