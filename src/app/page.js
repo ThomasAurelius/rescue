@@ -36,7 +36,7 @@ export default function Home() {
 					/>
 				</Link>
 			</div>
-			<p className="text-center text-lg p-4">
+			<p className="text-center max-w-3xl text-lg p-4">
 				Welcome to the Dachshund Rescue Group! We are a non-profit
 				organization dedicated to rescuing and rehoming dachshunds in need.
 				To do that, we need your help! We need volunteers, foster families

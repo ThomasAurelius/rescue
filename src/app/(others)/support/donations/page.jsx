@@ -27,7 +27,7 @@ const DonationsPage = () => {
 				significant impact, ensuring these amazing animals receive the
 				veterinary care, food, and shelter they need.
 			</p>
-			<p className="text-lg text-gray-700 mb-8">
+			<p className="text-lg max-w-3xl text-gray-700 mb-8">
 				Thank you for considering a donation. Your support goes a long way
 				in helping us provide a safe and loving environment for every foster
 				dog.

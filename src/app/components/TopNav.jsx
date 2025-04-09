@@ -52,6 +52,7 @@ const menuItems = [
 				label: "Successful Adoptions",
 				href: "/our-dogs/successful-adoptions",
 			},
+			{ label: "Surrending A Dog", href: "/our-dogs/surrender" },
 			// { label: "Rainbow Bridge", href: "/our-dogs/rainbow-bridge" },
 		],
 	},
