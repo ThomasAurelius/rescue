@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const SponsorshipPage = () => {
 	return (
-		<div className="w-[calc(100vw-300px)] mx-auto px-4 py-8">
+		<div className="md:w-[calc(100vw-300px)] mx-auto px-4 py-8">
 			{/* Page Title */}
 			<h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
 				Sponsor a Dachshund

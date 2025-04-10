@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function SurrenderDogPage() {
 	return (
-		<div className="w-[calc(100vw-300px)] flex justify-center text-center items-center mx-auto my-12 p-4">
+		<div className="md:w-[calc(100vw-300px)] flex justify-center text-center items-center mx-auto my-12 p-4">
 			<div className=" flex flex-col justify-center items-center mx-auto max-w-3xl bg-white shadow-lg rounded-lg p-8">
 				<h1 className="text-4xl font-bold text-center mb-6">
 					Surrender Your Dog to Our Rescue

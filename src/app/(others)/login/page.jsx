@@ -47,15 +47,15 @@ export default function Login() {
 	};
 
 	return (
-		<div className="min-h-screen w-[calc(100vw-300px)] flex items-start justify-center ">
-			<div className="max-w-md w-full  space-y-8 p-10 bg-gray-50 rounded-xl shadow-md">
-				<div>
+		<div className="min-h-screen w-full flex items-start justify-center justify-items-center md:w-[calc(100vw-300px)]">
+			<div className="max-w-md w-[280px]  md:w-full  space-y-8 p-10 bg-gray-50 rounded-xl shadow-md">
+				<div className="">
 					<h2 className="text-center text-3xl font-extrabold text-gray-900">
 						Sign in to your account
 					</h2>
 				</div>
 				{error && (
-					<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+					<div className="bg-red-100 border border-red-400 text-red-700  px-4 py-3 rounded relative">
 						{error}
 					</div>
 				)}
@@ -92,10 +92,15 @@ export default function Login() {
 							/>
 						</div>
 					</div>
-					<div className="flex justify-center">
+					<div className="flex w-[280px] justify-center">
 						<ReCAPTCHA
 							sitekey="6Lcc7Q4rAAAAAIzQ2tHG78vQ7oalzkij0FVMyAUQ"
 							onChange={handleCaptchaChange}
+							className="g-recaptcha"
+							style={{
+								transform: "scale(0.77)",
+								transformOrigin: "0 0",
+							}}
 						/>
 					</div>
 					<div>

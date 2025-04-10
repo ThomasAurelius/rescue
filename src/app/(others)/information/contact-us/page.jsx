@@ -21,7 +21,7 @@ export default function ContactUsPage() {
 	};
 
 	return (
-		<div className="min-h-screen w-[calc(100vw-300px)] bg-gray-100 p-8 flex items-center justify-center">
+		<div className="min-h-screen md:w-[calc(100vw-300px)]  p-8 flex items-start justify-center">
 			<div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
 				<p className="text-sm text-gray-500 mb-4">
 					NOTE: This form is for example only. It can be customized to send

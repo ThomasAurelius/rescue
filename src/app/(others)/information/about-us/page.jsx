@@ -2,7 +2,7 @@ import React from "react";
 
 export default function AboutUsPage() {
 	return (
-		<div className="min-h-screen bg-gray-100 p-8">
+		<div className="min-h-screen md:w-[calc(100vw-300px)] m-2  p-8">
 			<div className="container mx-auto max-w-4xl">
 				<header className="mb-12 text-center">
 					<h1 className="text-5xl font-bold mb-4">

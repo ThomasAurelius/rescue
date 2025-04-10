@@ -38,7 +38,7 @@ export default function FAQPage() {
 	};
 
 	return (
-		<div className="min-h-screen w-[calc(100vw-300px)] bg-gray-100 p-8">
+		<div className="min-h-screen md:w-[calc(100vw-300px)]  p-8">
 			<h1 className="text-4xl font-bold mb-8 text-center">
 				Frequently Asked Questions
 			</h1>

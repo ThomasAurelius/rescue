@@ -113,7 +113,7 @@ const RegisterDog = () => {
 	};
 
 	return (
-		<div className="flex flex-col justify-center items-center w-[calc(100vw-300px)] max-w-4xl mx-auto px-4 py-8">
+		<div className="flex flex-col justify-center items-center md:w-[calc(100vw-300px)] max-w-4xl mx-auto px-4 py-8">
 			<h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
 				Register a New Dog
 			</h1>

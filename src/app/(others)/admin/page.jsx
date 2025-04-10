@@ -3,7 +3,7 @@ import React from "react";
 
 const AdminPage = () => {
 	return (
-		<div className="flex flex-col gap-4 justify-center items-center w-[calc(100vw-300px)] p-4">
+		<div className="flex flex-col gap-4 justify-center items-center md:w-[calc(100vw-300px)] p-4">
 			<p className="text-3xl text-center">AdminPage</p>
 			<div className="flex flex-col gap-4 w-full max-w-4xl p-4 bg-white shadow-md rounded-lg">
 				<p>Links</p>

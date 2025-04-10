@@ -10,8 +10,8 @@ const playfair = Playfair_Display({
 
 export default function Home() {
 	return (
-		<div className="flex flex-col items-center justify-center min-h-full w-[calc(100vw-300px)]">
-			<h1 className="playfair-display p-4 text-5xl font-bold ">
+		<div className="flex flex-col items-center justify-center min-h-full md:w-[calc(100vw-300px)]">
+			<h1 className="playfair-display text-center p-4 text-5xl font-bold ">
 				Dachshund Rescue Group
 			</h1>
 			<div className="flex flex-wrap justify-center gap-4 m-auto p-4">

@@ -40,7 +40,9 @@ export default function RootLayout({ children }) {
 				<TopNav />
 				<div className="flex flex-row">
 					<LeftBar />
-					<div className="w-[calc(100vw-300px) h-full">{children}</div>
+					<div className="md:w-[calc(100vw-300px) mx-auto h-full">
+						{children}
+					</div>
 				</div>
 			</body>
 		</html>

@@ -2,8 +2,8 @@ import React from "react";
 
 const page = () => {
 	return (
-		<div>
-			<div className="w-[calc(100vw-300px)] flex flex-col justify-center items-center mx-auto p-8">
+		<div className="min-h-screen md:w-[calc(100vw-300px)] sm:p-2 md:p-8">
+			<div className=" flex flex-col justify-center items-center mx-auto p-8">
 				<h1 className="text-5xl font-bold mb-8 text-center">
 					Dachshund Rescue Resources
 				</h1>

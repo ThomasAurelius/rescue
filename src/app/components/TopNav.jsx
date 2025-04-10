@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const menuItems = [
 	{
@@ -9,8 +10,6 @@ const menuItems = [
 		submenu: [
 			{ label: "Home Page", href: "/" },
 			{ label: "Links & Resources", href: "/links-resources" },
-			// { label: "Events", href: "/events" },
-			// { label: "Shopping Partners", href: "/shopping-partners" },
 		],
 	},
 	{
@@ -42,18 +41,11 @@ const menuItems = [
 		href: "/our-dogs",
 		submenu: [
 			{ label: "Available dogs", href: "/our-dogs/list" },
-			// { label: "Available dogs - Grid Style", href: "/our-dogs/grid" },
-			// { label: "Recent Arrivals", href: "/our-dogs/recent-arrivals" },
-			// { label: "Puppies", href: "/our-dogs/puppies" },
-			// { label: "Adult Dogs", href: "/our-dogs/adult-dogs" },
-			// { label: "Senior Sweethearts", href: "/our-dogs/senior-sweethearts" },
-			// { label: "Special Needs Dogs", href: "/our-dogs/special-needs" },
 			{
 				label: "Successful Adoptions",
 				href: "/our-dogs/successful-adoptions",
 			},
 			{ label: "Surrending A Dog", href: "/our-dogs/surrender" },
-			// { label: "Rainbow Bridge", href: "/our-dogs/rainbow-bridge" },
 		],
 	},
 	{
@@ -62,9 +54,7 @@ const menuItems = [
 		submenu: [
 			{ label: "About Us", href: "/information/about-us" },
 			{ label: "Contact Us", href: "/information/contact-us" },
-			// { label: "Headline News", href: "/information/headline-news" },
 			{ label: "Photo Gallery", href: "/information/photo-gallery" },
-			// { label: "Happy Tails!", href: "/information/happy-tails" },
 		],
 	},
 ];
@@ -76,8 +66,8 @@ const Navbar = () => {
 	const [user, setUser] = useState(null);
 	const [userMenuOpen, setUserMenuOpen] = useState(false);
 	const userMenuRef = useRef(null);
+	const router = useRouter();
 
-	// Fetch the logged-in user's profile from /api/profile on mount
 	useEffect(() => {
 		async function fetchProfile() {
 			try {
@@ -109,23 +99,7 @@ const Navbar = () => {
 	const toggleMenu = () => setMenuOpen(!menuOpen);
 	const toggleSubmenu = (index) =>
 		setOpenSubmenus((prev) => ({ ...prev, [index]: !prev[index] }));
-	const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
-
-	// Close the user menu if clicking outside
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (
-				userMenuRef.current &&
-				!userMenuRef.current.contains(event.target)
-			) {
-				setUserMenuOpen(false);
-			}
-		};
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
+	const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
 
 	const handleLogout = async () => {
 		try {
@@ -147,13 +121,11 @@ const Navbar = () => {
 		<nav className="bg-gray-800 text-white">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16 items-center">
-					{/* Logo */}
 					<div className="flex-shrink-0">
-						<Link href="/">
-							<p className="text-xl font-bold">Dachshund Rescue</p>
+						<Link href="/" className="text-xl font-bold">
+							Dachshund Rescue
 						</Link>
 					</div>
-					{/* Desktop Menu */}
 					<div className="hidden lg:flex space-x-4 items-center">
 						{menuItems.map((item, index) => (
 							<div key={index} className="relative group">
@@ -174,34 +146,36 @@ const Navbar = () => {
 										<div
 											className={`absolute left-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-10 ${
 												openSubmenus[index] ? "block" : "hidden"
-											} group-hover:block`}
+											}`}
 										>
 											{item.submenu.map((subitem, subIndex) => (
-												<Link key={subIndex} href={subitem.href}>
-													<p className="block px-4 py-2 hover:bg-gray-600">
-														{subitem.label}
-													</p>
+												<Link
+													key={subIndex}
+													href={subitem.href}
+													className="block px-4 py-2 hover:bg-gray-600"
+												>
+													{subitem.label}
 												</Link>
 											))}
 										</div>
 									</>
 								) : (
-									<Link href={item.href}>
-										<p className="hover:text-gray-300">
-											{item.label}
-										</p>
+									<Link
+										href={item.href}
+										className="hover:text-gray-300"
+									>
+										{item.label}
 									</Link>
 								)}
 							</div>
 						))}
-						{/* Conditionally render Login/Register or the User Icon */}
 						{!isLoggedIn ? (
 							<>
-								<Link href="/login">
-									<p className="hover:text-gray-300">Login</p>
+								<Link href="/login" className="hover:text-gray-300">
+									Login
 								</Link>
-								<Link href="/register">
-									<p className="hover:text-gray-300">Register</p>
+								<Link href="/register" className="hover:text-gray-300">
+									Register
 								</Link>
 							</>
 						) : (
@@ -210,7 +184,6 @@ const Navbar = () => {
 									onClick={toggleUserMenu}
 									className="flex items-center focus:outline-none"
 								>
-									{/* User Icon SVG */}
 									<svg
 										className="h-6 w-6 text-white"
 										fill="currentColor"
@@ -219,37 +192,37 @@ const Navbar = () => {
 										<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
 									</svg>
 								</button>
-								{userMenuOpen && (
-									<div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-20">
-										{user?.role === "admin" && (
-											<Link href="/admin">
-												<p className="block px-4 py-2 hover:bg-gray-600">
-													Admin
-												</p>
-											</Link>
-										)}
-										<Link href="/profile">
-											<p className="block px-4 py-2 hover:bg-gray-600">
-												Profile
-											</p>
-										</Link>
-										<Link href="/settings">
-											<p className="block px-4 py-2 hover:bg-gray-600">
-												Settings
-											</p>
-										</Link>
+								<div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-20 block">
+									{user?.role === "admin" && (
 										<button
-											onClick={handleLogout}
-											className="w-full text-left block px-4 py-2 hover:bg-gray-600"
+											onClick={() => router.push("/admin")}
+											className="block w-full text-left px-4 py-2 hover:bg-gray-600"
 										>
-											Logout
+											Admin
 										</button>
-									</div>
-								)}
+									)}
+									<button
+										onClick={() => router.push("/profile")}
+										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+									>
+										Profile
+									</button>
+									<button
+										onClick={() => router.push("/settings")}
+										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+									>
+										Settings
+									</button>
+									<button
+										onClick={handleLogout}
+										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+									>
+										Logout
+									</button>
+								</div>
 							</div>
 						)}
 					</div>
-					{/* Mobile Menu Button */}
 					<div className="lg:hidden">
 						<button
 							onClick={toggleMenu}
@@ -281,108 +254,94 @@ const Navbar = () => {
 					</div>
 				</div>
 			</div>
-			{/* Mobile Menu */}
-			<div className={`${menuOpen ? "block" : "hidden"} lg:hidden`}>
-				<ul className="px-2 pt-2 pb-3 space-y-1">
-					{menuItems.map((item, index) => (
-						<li key={index}>
-							{item.submenu ? (
-								<>
-									<button
-										onClick={() => toggleSubmenu(index)}
-										className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-700 focus:outline-none"
-									>
-										{item.label}
-									</button>
-									<ul
-										className={`${
-											openSubmenus[index] ? "block" : "hidden"
-										} pl-4`}
+			{/* Mobile Full Menu */}
+			{menuOpen && (
+				<div className="lg:hidden px-4 pb-4">
+					<div className="space-y-2">
+						{menuItems.map((item, index) => (
+							<div key={index}>
+								<button
+									onClick={() => toggleSubmenu(index)}
+									className="w-full flex justify-between items-center text-left font-semibold mt-2 px-2 py-1 rounded bg-gray-800 hover:bg-gray-700"
+								>
+									{item.label}
+									<span className="ml-2 text-sm">
+										{openSubmenus[index] ? "▲" : "▼"}
+									</span>
+								</button>
+
+								{/* Submenu */}
+								{item.submenu && (
+									<div
+										className={`ml-4 overflow-hidden transition-all duration-300 ease-in-out ${
+											openSubmenus[index]
+												? "max-h-96 opacity-100 mt-1"
+												: "max-h-0 opacity-0"
+										}`}
 									>
 										{item.submenu.map((subitem, subIndex) => (
-											<li key={subIndex}>
-												<Link href={subitem.href}>
-													<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-														{subitem.label}
-													</p>
-												</Link>
-											</li>
-										))}
-									</ul>
-								</>
-							) : (
-								<Link href={item.href}>
-									<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-										{item.label}
-									</p>
-								</Link>
-							)}
-						</li>
-					))}
-					{!isLoggedIn ? (
-						<>
-							<li>
-								<Link href="/login">
-									<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-										Login
-									</p>
-								</Link>
-							</li>
-							<li>
-								<Link href="/register">
-									<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-										Register
-									</p>
-								</Link>
-							</li>
-						</>
-					) : (
-						<li>
-							<button
-								onClick={toggleUserMenu}
-								className="w-full text-left px-3 py-2 rounded-md hover:bg-gray-700 focus:outline-none"
-							>
-								User Menu
-							</button>
-							{userMenuOpen && (
-								<ul className="pl-4">
-									{user?.role === "admin" && (
-										<li>
-											<Link href="/admin">
-												<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-													Admin
-												</p>
+											<Link
+												key={subIndex}
+												href={subitem.href}
+												className="block px-2 py-1 rounded hover:bg-gray-700"
+											>
+												{subitem.label}
 											</Link>
-										</li>
-									)}
-									<li>
-										<Link href="/profile">
-											<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-												Profile
-											</p>
-										</Link>
-									</li>
-									<li>
-										<Link href="/settings">
-											<p className="block px-3 py-2 rounded-md hover:bg-gray-700">
-												Settings
-											</p>
-										</Link>
-									</li>
-									<li>
-										<button
-											onClick={handleLogout}
-											className="w-full text-left block px-3 py-2 rounded-md hover:bg-gray-700"
-										>
-											Logout
-										</button>
-									</li>
-								</ul>
-							)}
-						</li>
-					)}
-				</ul>
-			</div>
+										))}
+									</div>
+								)}
+							</div>
+						))}
+
+						{/* User Actions */}
+						{!isLoggedIn ? (
+							<>
+								<Link
+									href="/login"
+									className="block px-2 py-1 rounded hover:bg-gray-700"
+								>
+									Login
+								</Link>
+								<Link
+									href="/register"
+									className="block px-2 py-1 rounded hover:bg-gray-700"
+								>
+									Register
+								</Link>
+							</>
+						) : (
+							<>
+								{user?.role === "admin" && (
+									<button
+										onClick={() => router.push("/admin")}
+										className="block w-full text-left px-4 py-2  rounded hover:bg-gray-600"
+									>
+										Admin
+									</button>
+								)}
+								{/*<button
+									onClick={() => router.push("/profile")}
+									className="block w-full text-left px-4 py-2rounded hover:bg-gray-600"
+								>
+									Profile
+								</button> 
+								<button
+									onClick={() => router.push("/settings")}
+									className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
+								>
+									Settings
+								</button> */}
+								<button
+									onClick={handleLogout}
+									className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
+								>
+									Logout
+								</button>
+							</>
+						)}
+					</div>
+				</div>
+			)}
 		</nav>
 	);
 };

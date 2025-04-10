@@ -113,7 +113,7 @@ export default function SurrenderApplicationPage() {
 	};
 
 	return (
-		<div className="w-[calc(100vw-300px)] flex flex-col justify-center items-center max-w-3xl mx-auto p-8 shadow-lg bg-white rounded-lg">
+		<div className="md:w-[calc(100vw-300px)] flex flex-col justify-center items-center max-w-3xl mx-auto p-8 shadow-lg bg-white rounded-lg">
 			<h1 className="text-4xl font-bold text-center mb-8">
 				Surrender Your Dog
 			</h1>

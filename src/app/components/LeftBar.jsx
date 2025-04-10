@@ -64,9 +64,11 @@ const LeftBar = () => {
 			{/* Other sections remain unchanged */}
 			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
 				<h1 className="text-xl py-2 playfair-display text-center font-bold">
-					Make a difference in a dog's life!
+					Donate today!
 				</h1>
-				<p className="text-2xl mt-2">Donate today!</p>
+				<p className="text-2xl text-center mt-2">
+					Make a difference in a dog's life!
+				</p>
 				<Link href="/support/donations">
 					<button className="bg-blue-500 cursor-pointer hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 mt-4">
 						Donate

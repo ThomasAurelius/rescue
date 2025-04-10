@@ -56,8 +56,8 @@ export default function RegisterPage() {
 	};
 
 	return (
-		<div className="w-[calc(100vw-300px)] h-screen flex pt-12 items-start justify-center ">
-			<div className="w-full max-w-md p-8 bg-gray-100 rounded shadow">
+		<div className="w-[calc(100vw-300px)] w-full h-screen flex pt-12 items-start justify-center ">
+			<div className=" sm:w-full w-[280px] p-8 bg-gray-100 rounded shadow">
 				<h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 				<form onSubmit={handleRegister} className="bg-gray-100space-y-6">
 					<div>
@@ -83,10 +83,15 @@ export default function RegisterPage() {
 						/>
 					</div>
 					{/* reCAPTCHA */}
-					<div className="flex pt-8 justify-center">
+					<div className="flex w-[280px] justify-center items-center pt-8">
 						<ReCAPTCHA
 							sitekey="6Lcc7Q4rAAAAAIzQ2tHG78vQ7oalzkij0FVMyAUQ"
 							onChange={handleCaptchaChange}
+							className="g-recaptcha mx-auto flex justify-center"
+							style={{
+								transform: "scale(0.77)",
+								transformOrigin: "0 0",
+							}}
 						/>
 					</div>
 					{error && <p className="text-red-500 text-sm">{error}</p>}
