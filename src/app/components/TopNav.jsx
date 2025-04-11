@@ -122,7 +122,11 @@ const Navbar = () => {
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between h-16 items-center">
 					<div className="flex-shrink-0">
-						<Link href="/" className="text-xl font-bold">
+						<Link
+							href="/"
+							onClick={() => setOpenSubmenus({})}
+							className="text-xl font-bold"
+						>
 							Dachshund Rescue
 						</Link>
 					</div>
@@ -152,6 +156,7 @@ const Navbar = () => {
 												<Link
 													key={subIndex}
 													href={subitem.href}
+													onClick={() => setOpenSubmenus({})}
 													className="block px-4 py-2 hover:bg-gray-600"
 												>
 													{subitem.label}
@@ -162,6 +167,7 @@ const Navbar = () => {
 								) : (
 									<Link
 										href={item.href}
+										onClick={() => setOpenSubmenus({})}
 										className="hover:text-gray-300"
 									>
 										{item.label}
@@ -171,10 +177,18 @@ const Navbar = () => {
 						))}
 						{!isLoggedIn ? (
 							<>
-								<Link href="/login" className="hover:text-gray-300">
+								<Link
+									href="/login"
+									onClick={() => setOpenSubmenus({})}
+									className="hover:text-gray-300"
+								>
 									Login
 								</Link>
-								<Link href="/register" className="hover:text-gray-300">
+								<Link
+									href="/register"
+									onClick={() => setOpenSubmenus({})}
+									className="hover:text-gray-300"
+								>
 									Register
 								</Link>
 							</>
@@ -192,34 +206,45 @@ const Navbar = () => {
 										<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
 									</svg>
 								</button>
-								<div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-20 block">
-									{user?.role === "admin" && (
+								{userMenuOpen && (
+									<div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-20 block">
+										{user?.role === "admin" && (
+											<button
+												onClick={() => {
+													router.push("/admin");
+													setUserMenuOpen(false);
+												}}
+												className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+											>
+												Admin
+											</button>
+										)}
 										<button
-											onClick={() => router.push("/admin")}
+											onClick={() => {
+												router.push("/profile");
+												setUserMenuOpen(false);
+											}}
 											className="block w-full text-left px-4 py-2 hover:bg-gray-600"
 										>
-											Admin
+											Profile
 										</button>
-									)}
-									<button
-										onClick={() => router.push("/profile")}
-										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
-									>
-										Profile
-									</button>
-									<button
-										onClick={() => router.push("/settings")}
-										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
-									>
-										Settings
-									</button>
-									<button
-										onClick={handleLogout}
-										className="block w-full text-left px-4 py-2 hover:bg-gray-600"
-									>
-										Logout
-									</button>
-								</div>
+										<button
+											onClick={() => {
+												router.push("/settings");
+												setUserMenuOpen(false);
+											}}
+											className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+										>
+											Settings
+										</button>
+										<button
+											onClick={handleLogout}
+											className="block w-full text-left px-4 py-2 hover:bg-gray-600"
+										>
+											Logout
+										</button>
+									</div>
+								)}
 							</div>
 						)}
 					</div>
@@ -269,7 +294,6 @@ const Navbar = () => {
 										{openSubmenus[index] ? "▲" : "▼"}
 									</span>
 								</button>
-
 								{/* Submenu */}
 								{item.submenu && (
 									<div
@@ -283,6 +307,10 @@ const Navbar = () => {
 											<Link
 												key={subIndex}
 												href={subitem.href}
+												onClick={() => {
+													setOpenSubmenus({});
+													setMenuOpen(false);
+												}}
 												className="block px-2 py-1 rounded hover:bg-gray-700"
 											>
 												{subitem.label}
@@ -298,12 +326,20 @@ const Navbar = () => {
 							<>
 								<Link
 									href="/login"
+									onClick={() => {
+										setOpenSubmenus({});
+										setMenuOpen(false);
+									}}
 									className="block px-2 py-1 rounded hover:bg-gray-700"
 								>
 									Login
 								</Link>
 								<Link
 									href="/register"
+									onClick={() => {
+										setOpenSubmenus({});
+										setMenuOpen(false);
+									}}
 									className="block px-2 py-1 rounded hover:bg-gray-700"
 								>
 									Register
@@ -313,24 +349,33 @@ const Navbar = () => {
 							<>
 								{user?.role === "admin" && (
 									<button
-										onClick={() => router.push("/admin")}
-										className="block w-full text-left px-4 py-2  rounded hover:bg-gray-600"
+										onClick={() => {
+											router.push("/admin");
+											setMenuOpen(false);
+										}}
+										className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
 									>
 										Admin
 									</button>
 								)}
-								{/*<button
-									onClick={() => router.push("/profile")}
-									className="block w-full text-left px-4 py-2rounded hover:bg-gray-600"
+								<button
+									onClick={() => {
+										router.push("/profile");
+										setMenuOpen(false);
+									}}
+									className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
 								>
 									Profile
-								</button> 
+								</button>
 								<button
-									onClick={() => router.push("/settings")}
+									onClick={() => {
+										router.push("/settings");
+										setMenuOpen(false);
+									}}
 									className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
 								>
 									Settings
-								</button> */}
+								</button>
 								<button
 									onClick={handleLogout}
 									className="block w-full text-left px-4 py-2 rounded hover:bg-gray-600"
