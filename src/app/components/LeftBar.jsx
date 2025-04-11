@@ -30,7 +30,7 @@ const LeftBar = () => {
 
 	return (
 		<div className="flex flex-col max-[600px]:hidden w-[300px] h-screen">
-			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center p-4">
+			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center p-4">
 				<h1 className="text-2xl playfair-display font-bold">
 					Featured Dog
 				</h1>
@@ -62,7 +62,7 @@ const LeftBar = () => {
 				)}
 			</section>
 			{/* Other sections remain unchanged */}
-			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
+			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
 				<h1 className="text-xl py-2 playfair-display text-center font-bold">
 					Donate today!
 				</h1>
@@ -75,7 +75,7 @@ const LeftBar = () => {
 					</button>
 				</Link>
 			</section>
-			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
+			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
 				<h1 className="text-xl playfair-display py-2 text-center font-bold">
 					Follow us on Social Media!
 				</h1>
@@ -106,7 +106,7 @@ const LeftBar = () => {
 					</a>
 				</div>
 			</section>
-			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
+			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
 				<h1 className="text-xl playfair-display py-2 text-center font-bold">
 					Sign up for our Newsletter!
 				</h1>
@@ -122,7 +122,7 @@ const LeftBar = () => {
 					Subscribe
 				</button>
 			</section>
-			<section className="flex flex-col bg-teal-50 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
+			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
 				<h1 className="text-xl playfair-display p-2 text-center font-bold">
 					Shop our partners and support us!
 				</h1>
