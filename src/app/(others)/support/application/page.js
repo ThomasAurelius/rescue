@@ -78,9 +78,67 @@ export default function CreateApplicationPage() {
 		}
 	};
 
+	// Client-side validation function
+	const validateForm = () => {
+		const errors = [];
+
+		// Ensure specified text fields have at least 2 characters
+		const fieldsToCheck = [
+			"firstName",
+			"lastName",
+			"email",
+			"phoneNumber",
+			"streetAddress",
+			"city",
+			"state",
+			"zipCode",
+			"indoorOutdoor",
+			"humansInHouse",
+			"dogsInHouse",
+			"otherPets",
+		];
+
+		fieldsToCheck.forEach((field) => {
+			if (formData[field].trim().length < 2) {
+				errors.push(`${field} must be at least 2 characters long.`);
+			}
+		});
+
+		const fieldsToCheck2 = ["veterinarianReference", "personalReference"];
+
+		fieldsToCheck2.forEach((field) => {
+			if (formData[field].trim().length < 14) {
+				errors.push(`${field} must be at least 14 characters long.`);
+			}
+		});
+
+		// Validate email format
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(formData.email)) {
+			errors.push("Please enter a valid email address.");
+		}
+
+		// Validate phone number by stripping non-digits and ensuring it has at least 10 digits
+		const phoneDigits = formData.phoneNumber.replace(/\D/g, "");
+		if (phoneDigits.length < 10) {
+			errors.push(
+				"Please enter a valid phone number with at least 10 digits."
+			);
+		}
+
+		return errors;
+	};
+
 	// Handle form submission
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		// Run validations
+		const validationErrors = validateForm();
+		if (validationErrors.length > 0) {
+			setMessage(validationErrors.join(" "));
+			return;
+		}
 
 		// Ensure featured image and gallery images are uploaded
 		if (!formData.imageUrl && featuredFile) {
@@ -145,7 +203,7 @@ export default function CreateApplicationPage() {
 				Please fill out the form below. We will review your application and
 				get back to you as soon as possible. To speed up your application,
 				be specific and provide as much detail as possible. Missing
-				information slows down the process considerably
+				information slows down the process considerably.
 			</p>
 			{message && <p className="mb-4 text-center text-lg">{message}</p>}
 			<form
@@ -225,7 +283,7 @@ export default function CreateApplicationPage() {
 					/>
 				</div>
 				{/* Street Address */}
-				<div className="">
+				<div>
 					<label
 						htmlFor="streetAddress"
 						className="block text-gray-700 font-medium mb-2"
