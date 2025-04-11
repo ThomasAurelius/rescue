@@ -24,7 +24,7 @@ export default async function DogViewPage({ params }) {
 	}
 
 	return (
-		<div className="min-h-screen w-[calc(100vw-300px)] bg-gray-100 flex items-start justify-center p-4">
+		<div className="min-h-screen me:w-[calc(100vw-300px)] bg-gray-100 flex items-start justify-center p-4">
 			<div className="bg-white shadow-md rounded-lg p-6 max-w-2xl w-full">
 				<Link href="/our-dogs/list">
 					<button className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
