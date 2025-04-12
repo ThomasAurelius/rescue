@@ -63,10 +63,10 @@ const LeftBar = () => {
 			</section>
 			{/* Other sections remain unchanged */}
 			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
-				<h1 className="text-xl py-2 playfair-display text-center font-bold">
+				<h1 className="text-xl  py-2 playfair-display text-center font-bold">
 					Donate today!
 				</h1>
-				<p className="text-2xl text-center mt-2">
+				<p className="text-2xl px-2 text-center mt-2">
 					Make a difference in a dog's life!
 				</p>
 				<Link href="/support/donations">
@@ -123,10 +123,10 @@ const LeftBar = () => {
 				</button>
 			</section>
 			<section className="flex flex-col bg-slate-100 shadow-[7px_9px_6px_0px_rgba(0,_0,_0,_0.35)] rounded-lg items-center justify-center mt-4">
-				<h1 className="text-xl playfair-display p-2 text-center font-bold">
+				<h1 className="text-xl px-4 playfair-display p-2 text-center font-bold">
 					Shop our partners and support us!
 				</h1>
-				<p className="text-lg text-center mb-2">
+				<p className="text-lg px-4 text-center mb-2">
 					Shop through our affiliate links and support us at no extra cost!
 				</p>
 				<Image
