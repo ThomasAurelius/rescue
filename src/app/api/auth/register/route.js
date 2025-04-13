@@ -9,8 +9,8 @@ export async function POST(request) {
 
 		// Connect to the database and get the users collection
 		const client = await getRescueCollection();
-		const db = client.db();
-		const usersCollection = db.collection("users");
+
+		const usersCollection = client.collection("users");
 
 		// Check if the user already exists
 		const existingUser = await usersCollection.findOne({ email });
