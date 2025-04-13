@@ -127,7 +127,11 @@ const Navbar = () => {
 							onClick={() => setOpenSubmenus({})}
 							className="text-xl font-bold"
 						>
-							Dachshund Rescue
+							<img
+								src="/assets/logo.png"
+								alt="Logo"
+								className="h-10 w-30 rounded-full"
+							/>
 						</Link>
 					</div>
 					<div className="hidden lg:flex space-x-4 items-center">
