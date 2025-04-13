@@ -7,10 +7,6 @@ const menuItems = [
 	{
 		label: "Home",
 		href: "/",
-		submenu: [
-			{ label: "Home Page", href: "/" },
-			{ label: "Links & Resources", href: "/links-resources" },
-		],
 	},
 	{
 		label: "Support",
@@ -55,6 +51,7 @@ const menuItems = [
 			{ label: "About Us", href: "/information/about-us" },
 			{ label: "Contact Us", href: "/information/contact-us" },
 			{ label: "Photo Gallery", href: "/information/photo-gallery" },
+			{ label: "Links & Resources", href: "/links-resources" },
 		],
 	},
 ];
